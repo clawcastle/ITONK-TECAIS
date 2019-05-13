@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TECAIS.RabbitMq;
+using TECAIS.StatusReporting.Extensions;
+using TECAIS.StatusReporting.Models;
 
-namespace SampleConsumer
+namespace TECAIS.StatusReporting
 {
     public class Startup
     {
@@ -21,9 +30,9 @@ namespace SampleConsumer
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             var rabbitHostName = Configuration["RABBIT_HOST_NAME"] ?? "localhost";
-            var rabbitRoutingKey = Configuration["RABBIT_ROUTING_KEY"] ?? "heat";
-            services.AddSingleton<IRabbitMqConnection<Measurement>>(
-                new RabbitMqConnection<Measurement>(rabbitHostName, rabbitRoutingKey));
+            var rabbitRoutingKey = Configuration["RABBIT_ROUTING_KEY"] ?? "status_report";
+            services.AddSingleton<IRabbitMqConnection<StatusReportMessage>>(
+                new RabbitMqConnection<StatusReportMessage>(rabbitHostName, rabbitRoutingKey));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,12 +48,14 @@ namespace SampleConsumer
                 app.UseHsts();
             }
 
-            app.UseRabbitMqConnection(measurement =>
+            app.UseRabbitMqConnection(message =>
             {
-                Measurements.MeasurementsList.Add(measurement);
+                Console.WriteLine($"Status report received with status {message.Status.ToString()}");
             });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
+
+
 }
