@@ -24,4 +24,20 @@ namespace TECAIS.MeasurementGenerator
             return new Measurement(Guid.NewGuid(), deviceId, DateTime.Now, value, type);
         }
     }
+
+    public class StatusReportMessage
+    {
+        public Guid DeviceId { get; set; }
+        public DateTime Timestamp { get; set; }
+        public Status Status { get; set; }
+        public string Message { get; set; }
+    }
+
+    public enum Status
+    {
+        Ok,
+        Warning,
+        Error,
+        Fatal
+    }
 }

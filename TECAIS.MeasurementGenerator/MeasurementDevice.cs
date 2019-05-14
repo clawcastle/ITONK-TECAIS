@@ -25,6 +25,17 @@ namespace TECAIS.MeasurementGenerator
             return Measurement.Create(Id, CurrentValue, MeasurementType);
         }
 
+        public StatusReportMessage GenerateStatusReport()
+        {
+            return new StatusReportMessage
+            {
+                DeviceId = Id,
+                Message = "All is good",
+                Status = Status.Ok,
+                Timestamp = DateTime.Now
+            };
+        }
+
         private void UpdateValue()
         {
             var random = new Random();

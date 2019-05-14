@@ -18,9 +18,15 @@ namespace TECAIS.MeasurementGenerator
                     new MeasurementDevice(Guid.NewGuid(), MeasurementType.Water, "123456789", "Mig", 789),
                 })
             };
+            
+            var count = 0;
             while (true)
             {
                 ReportMeasurements(houseHolds, rabbitMqClient);
+                if (count % 3 == 0)
+                {
+                    ReportStatus(houseHolds, rabbitMqClient);
+                }
                 Thread.Sleep(5000);
             }
         }
@@ -33,6 +39,18 @@ namespace TECAIS.MeasurementGenerator
                 {
                     var measurement = measurementDevice.GenerateMeasurement();
                     rabbitMqClient.SendMessage(messageBody: measurement, routingKey: measurement.Type.ToString().ToLower());
+                }
+            }
+        }
+
+        private static void ReportStatus(IEnumerable<HouseHold> houseHolds, RabbitMqClient rabbitMqClient)
+        {
+            foreach (var houseHold in houseHolds)
+            {
+                foreach (var measurementDevice in houseHold.MeasurementDevices)
+                {
+                    var status = measurementDevice.GenerateStatusReport();
+                    rabbitMqClient.SendMessage(messageBody: status, routingKey: "status_report");
                 }
             }
         }

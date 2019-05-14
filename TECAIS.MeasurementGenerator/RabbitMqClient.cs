@@ -17,7 +17,7 @@ namespace TECAIS.MeasurementGenerator
                 {HostName = rabbitHostName ?? "localhost"};
         }
 
-        public void SendMessage(Measurement messageBody, string routingKey)
+        public void SendMessage(object messageBody, string routingKey)
         {
             using (var conn = _connectionFactory.CreateConnection())
             {
