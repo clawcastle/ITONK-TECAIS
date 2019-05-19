@@ -14,7 +14,7 @@ namespace TECAIS.StatusReporting.Extensions
     {
         public static IApplicationBuilder UseRabbitMqConnection(this IApplicationBuilder app, Action<StatusReportMessage> handler)
         {
-            var rabbitMqConnection = app.ApplicationServices.GetService<IRabbitMqConnection<StatusReportMessage>>();
+            var rabbitMqConnection = app.ApplicationServices.GetService<IEventBus>();
             var applicationLifeTime = app.ApplicationServices.GetService<IApplicationLifetime>();
 
             applicationLifeTime.ApplicationStarted.Register(() => OnStarted(rabbitMqConnection, handler));
@@ -23,14 +23,14 @@ namespace TECAIS.StatusReporting.Extensions
             return app;
         }
 
-        private static void OnStarted(IRabbitMqConnection<StatusReportMessage> rabbitMqConnection, Action<StatusReportMessage> handler)
+        private static void OnStarted(IEventBus eventBus, Action<StatusReportMessage> handler)
         {
-            rabbitMqConnection.RegisterHandler(handler);
+            eventBus.RegisterHandler(handler, "direct");
         }
 
-        private static void OnStopping(IRabbitMqConnection<StatusReportMessage> rabbitMqConnection)
+        private static void OnStopping(IEventBus eventBus)
         {
-            rabbitMqConnection.Deregister();
+            eventBus.Deregister();
         }
     }
 }

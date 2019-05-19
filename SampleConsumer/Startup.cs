@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,10 +22,8 @@ namespace SampleConsumer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var rabbitHostName = Configuration["RABBIT_HOST_NAME"] ?? "localhost";
-            var rabbitRoutingKey = Configuration["RABBIT_ROUTING_KEY"] ?? "heat";
-            services.AddSingleton<IRabbitMqConnection<Measurement>>(
-                new RabbitMqConnection<Measurement>(rabbitHostName, rabbitRoutingKey));
+            services.AddEventBus();
+            services.AddTransient<MeasurementReceivedEventHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,12 +39,18 @@ namespace SampleConsumer
                 app.UseHsts();
             }
 
-            app.UseRabbitMqConnection(measurement =>
-            {
-                Measurements.MeasurementsList.Add(measurement);
-            });
+            app.ConfigureEventBus();
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+    }
+
+    public class MeasurementReceivedEventHandler : IEventHandler<Measurement>
+    {
+        public Task Handle(Measurement @event)
+        {
+            Console.WriteLine(@event.Id);
+            return Task.CompletedTask;
         }
     }
 }

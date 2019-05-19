@@ -1,7 +1,7 @@
 ﻿using System;
 using TECAIS.RabbitMq;
 
-namespace SampleConsumer
+namespace TECAIS.ElectricityConsumptionSubmission
 {
     public class Measurement : EventBase
     {

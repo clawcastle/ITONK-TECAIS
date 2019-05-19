@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
 
-namespace SampleConsumer
+namespace TECAIS.ElectricityConsumptionSubmission
 {
     public static class ApplicationBuilderExtensions
     {

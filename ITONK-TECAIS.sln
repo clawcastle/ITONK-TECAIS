@@ -9,7 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleConsumer", "SampleCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TECAIS.RabbitMq", "TECAIS.RabbitMq\TECAIS.RabbitMq.csproj", "{15F49B8F-78AE-4393-8134-A09A03E24679}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TECAIS.StatusReporting", "TECAIS.StatusReporting\TECAIS.StatusReporting.csproj", "{02CC14AA-3D89-4E5E-A073-901AAC475E18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TECAIS.StatusReporting", "TECAIS.StatusReporting\TECAIS.StatusReporting.csproj", "{02CC14AA-3D89-4E5E-A073-901AAC475E18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TECAIS.HeatConsumptionSubmission", "TECAIS.HeatConsumptionSubmission\TECAIS.HeatConsumptionSubmission.csproj", "{95A8E441-90D5-4CBE-808A-53D62EDD4F6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TECAIS.WaterConsumptionSubmission", "TECAIS.WaterConsumptionSubmission\TECAIS.WaterConsumptionSubmission.csproj", "{6E6F3BA8-1E44-451C-8DC2-1574C8D2E6E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TECAIS.ElectricityConsumptionSubmission", "TECAIS.ElectricityConsumptionSubmission\TECAIS.ElectricityConsumptionSubmission.csproj", "{12452D8F-3F9D-457D-87C6-E3FBD0B53C9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{02CC14AA-3D89-4E5E-A073-901AAC475E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02CC14AA-3D89-4E5E-A073-901AAC475E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02CC14AA-3D89-4E5E-A073-901AAC475E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95A8E441-90D5-4CBE-808A-53D62EDD4F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95A8E441-90D5-4CBE-808A-53D62EDD4F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95A8E441-90D5-4CBE-808A-53D62EDD4F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95A8E441-90D5-4CBE-808A-53D62EDD4F6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E6F3BA8-1E44-451C-8DC2-1574C8D2E6E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E6F3BA8-1E44-451C-8DC2-1574C8D2E6E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E6F3BA8-1E44-451C-8DC2-1574C8D2E6E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E6F3BA8-1E44-451C-8DC2-1574C8D2E6E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12452D8F-3F9D-457D-87C6-E3FBD0B53C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12452D8F-3F9D-457D-87C6-E3FBD0B53C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12452D8F-3F9D-457D-87C6-E3FBD0B53C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12452D8F-3F9D-457D-87C6-E3FBD0B53C9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
