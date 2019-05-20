@@ -96,22 +96,6 @@ namespace TECAIS.RabbitMq
             }
         }
 
-        //public void RegisterHandler(Action<T> handler, string exchangeType)
-        //{
-        //    _channel.ExchangeDeclare(exchange: ExchangeName, type: exchangeType);
-        //    var queueName = _channel.QueueDeclare().QueueName;
-        //    _channel.QueueBind(queue: queueName, exchange: ExchangeName, routingKey: _routingKey);
-        //    var consumer = new EventingBasicConsumer(_channel);
-        //    consumer.Received += (model, ea) =>
-        //    {
-        //        var body = ea.Body;
-        //        var bodyJson = Encoding.UTF8.GetString(body);
-        //        var measurement = JsonConvert.DeserializeObject<T>(bodyJson);
-        //        handler(measurement);
-        //    };
-        //    _channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-        //}
-
         public void Deregister()
         {
             Dispose();
