@@ -39,10 +39,7 @@ namespace TECAIS.StatusReporting
                 app.UseHsts();
             }
 
-            app.UseRabbitMqConnection(message =>
-            {
-                Console.WriteLine($"Status report received with status {message.Status.ToString()}");
-            });
+            app.ConfigureEventBus();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

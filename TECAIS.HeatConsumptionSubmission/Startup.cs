@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.HeatConsumptionSubmission.Extensions;
 using TECAIS.HeatConsumptionSubmission.Handlers;
+using TECAIS.HeatConsumptionSubmission.Services;
 using TECAIS.RabbitMq;
 
 namespace TECAIS.HeatConsumptionSubmission
@@ -24,6 +26,18 @@ namespace TECAIS.HeatConsumptionSubmission
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEventBus();
             services.AddTransient<MeasurementReceivedEventHandler>();
+            services.AddTransient<IChargingService, ChargingService>();
+            services.AddTransient<IPricingService, PricingService>();
+            services.AddHttpClient<IChargingService, ChargingService>(sp =>
+            {
+                var chargingServiceHostName = Configuration["CHARGING_SERVICE_HOSTNAME"];
+                sp.BaseAddress = new Uri(chargingServiceHostName);
+            });
+            services.AddHttpClient<IPricingService, PricingService>(sp =>
+            {
+                var pricingServiceHostName = Configuration["HEAT_PRICING_SERVICE_HOSTNAME"];
+                sp.BaseAddress = new Uri(pricingServiceHostName);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
