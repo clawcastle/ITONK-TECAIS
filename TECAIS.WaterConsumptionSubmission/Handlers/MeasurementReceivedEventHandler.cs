@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using TECAIS.RabbitMq;
+using TECAIS.WaterConsumptionSubmission.Models.Events;
 
-namespace TECAIS.WaterConsumptionSubmission
+namespace TECAIS.WaterConsumptionSubmission.Handlers
 {
     public class MeasurementReceivedEventHandler : IEventHandler<Measurement>
     {

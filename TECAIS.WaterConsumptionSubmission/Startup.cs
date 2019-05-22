@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
+using TECAIS.WaterConsumptionSubmission.Extensions;
+using TECAIS.WaterConsumptionSubmission.Handlers;
 
 namespace TECAIS.WaterConsumptionSubmission
 {

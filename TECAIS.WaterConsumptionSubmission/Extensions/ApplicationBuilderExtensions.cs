@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
+using TECAIS.WaterConsumptionSubmission.Handlers;
+using TECAIS.WaterConsumptionSubmission.Models.Events;
 
-namespace TECAIS.WaterConsumptionSubmission
+namespace TECAIS.WaterConsumptionSubmission.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

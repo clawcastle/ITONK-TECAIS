@@ -1,7 +1,7 @@
 ﻿using System;
 using TECAIS.RabbitMq;
 
-namespace TECAIS.WaterConsumptionSubmission
+namespace TECAIS.WaterConsumptionSubmission.Models.Events
 {
     public class Measurement : EventBase
     {
