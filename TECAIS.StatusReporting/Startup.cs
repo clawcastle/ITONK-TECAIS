@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
 using TECAIS.StatusReporting.Extensions;
-using TECAIS.StatusReporting.Models;
 
 namespace TECAIS.StatusReporting
 {
@@ -23,10 +22,8 @@ namespace TECAIS.StatusReporting
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            var rabbitHostName = Configuration["RABBIT_HOST_NAME"] ?? "localhost";
-            var rabbitRoutingKey = Configuration["RABBIT_ROUTING_KEY"] ?? "status_report";
-            services.AddSingleton<IEventBus>(
-                new EventBus(rabbitHostName, rabbitRoutingKey));
+            services.AddEventBus();
+            services.AddTransient<StatusMessageReceivedHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +47,4 @@ namespace TECAIS.StatusReporting
             app.UseMvc();
         }
     }
-
-
 }

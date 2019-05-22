@@ -2,6 +2,11 @@
 {
     public abstract class EventBase
     {
-        public string RoutingKey { get; set; }
+        public string EventType { get; }
+
+        public EventBase(string eventType)
+        {
+            EventType = eventType;
+        }
     }
 }

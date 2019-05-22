@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using TECAIS.ElectricityConsumptionSubmission.Extensions;
+using TECAIS.ElectricityConsumptionSubmission.Handlers;
 using TECAIS.RabbitMq;
 
 namespace TECAIS.ElectricityConsumptionSubmission

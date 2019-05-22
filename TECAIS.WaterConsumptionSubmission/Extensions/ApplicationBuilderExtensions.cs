@@ -11,7 +11,7 @@ namespace TECAIS.WaterConsumptionSubmission
         {
             var eventBus = app.ApplicationServices.GetService<IEventBus>();
             var applicationLifeTime = app.ApplicationServices.GetService<IApplicationLifetime>();
-            eventBus.Subscribe<Measurement, MeasurementReceivedEventHandler>("heat");
+            eventBus.Subscribe<Measurement, MeasurementReceivedEventHandler>("water");
             applicationLifeTime.ApplicationStopping.Register(() => OnStopping(eventBus));
             return app;
         }

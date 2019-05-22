@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TECAIS.HeatConsumptionSubmission.Extensions;
+using TECAIS.HeatConsumptionSubmission.Handlers;
 using TECAIS.RabbitMq;
 
 namespace TECAIS.HeatConsumptionSubmission

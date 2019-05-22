@@ -1,7 +1,7 @@
 ﻿using System;
 using TECAIS.RabbitMq;
 
-namespace TECAIS.ElectricityConsumptionSubmission
+namespace TECAIS.WaterConsumptionSubmission
 {
     public class Measurement : EventBase
     {
@@ -9,5 +9,9 @@ namespace TECAIS.ElectricityConsumptionSubmission
         public Guid DeviceId { get; set; }
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }
+
+        public Measurement(string eventType) : base(eventType)
+        {
+        }
     }
 }

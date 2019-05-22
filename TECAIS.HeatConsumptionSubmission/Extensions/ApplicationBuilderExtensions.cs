@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using TECAIS.HeatConsumptionSubmission.Handlers;
+using TECAIS.HeatConsumptionSubmission.Models.Events;
 using TECAIS.RabbitMq;
 
-namespace TECAIS.HeatConsumptionSubmission
+namespace TECAIS.HeatConsumptionSubmission.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

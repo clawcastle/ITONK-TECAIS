@@ -32,6 +32,21 @@ namespace TECAIS.RabbitMq
             _channel?.Dispose();
         }
 
+        public void Publish(EventBase @event)
+        {
+            using (var channel = _connection.CreateModel())
+            {
+                channel.ExchangeDeclare(exchange: ExchangeName, type: "direct");
+                var message = JsonConvert.SerializeObject(@event);
+                var body = Encoding.UTF8.GetBytes(message);
+
+                var properties = channel.CreateBasicProperties();
+                properties.DeliveryMode = 2; //persistent
+
+                channel.BasicPublish(exchange: ExchangeName, routingKey: @event.EventType, basicProperties: properties,
+                    body: body);
+            }
+        }
         public void Subscribe<TEvent, THandler>(string eventName = null) where TEvent : EventBase where THandler : IEventHandler<TEvent>
         {
             var routingKey = eventName ?? _eventHandlerManager.GetRoutingKeyFromEventType<TEvent>();

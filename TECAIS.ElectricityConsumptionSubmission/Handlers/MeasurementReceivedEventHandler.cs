@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
+using TECAIS.ElectricityConsumptionSubmission.Models.Events;
 using TECAIS.RabbitMq;
 
-namespace TECAIS.HeatConsumptionSubmission
+namespace TECAIS.ElectricityConsumptionSubmission.Handlers
 {
     public class MeasurementReceivedEventHandler : IEventHandler<Measurement>
     {

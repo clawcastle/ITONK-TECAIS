@@ -12,20 +12,13 @@ namespace TECAIS.StatusReporting.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseRabbitMqConnection(this IApplicationBuilder app, Action<StatusReportMessage> handler)
+        public static IApplicationBuilder ConfigureEventBus(this IApplicationBuilder app)
         {
-            var rabbitMqConnection = app.ApplicationServices.GetService<IEventBus>();
+            var eventBus = app.ApplicationServices.GetService<IEventBus>();
             var applicationLifeTime = app.ApplicationServices.GetService<IApplicationLifetime>();
-
-            applicationLifeTime.ApplicationStarted.Register(() => OnStarted(rabbitMqConnection, handler));
-            applicationLifeTime.ApplicationStopping.Register(() => OnStopping(rabbitMqConnection));
-
+            eventBus.Subscribe<StatusReportMessage, StatusMessageReceivedHandler>("status");
+            applicationLifeTime.ApplicationStopping.Register(() => OnStopping(eventBus));
             return app;
-        }
-
-        private static void OnStarted(IEventBus eventBus, Action<StatusReportMessage> handler)
-        {
-            eventBus.RegisterHandler(handler, "direct");
         }
 
         private static void OnStopping(IEventBus eventBus)
