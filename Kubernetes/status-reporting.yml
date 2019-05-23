@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: status-reporting
+  labels:
+    app: status-reporting
+  namespace: ITONK-TECAIS-GROUP4
+  spec:
+    type: LoadBalancer
+    containers:
+      - image: clawcastle/status-reporting
+        name: status-reporting-app
+        ports:
+          - containerPort: 80

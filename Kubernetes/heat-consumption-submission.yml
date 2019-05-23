@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: heat-consumption-submission
+  labels:
+    app: heat-consumption-submission
+  namespace: ITONK-TECAIS-GROUP4
+  spec:
+    type: LoadBalancer
+    containers:
+      - image: clawcastle/heat-consumption-submission
+        name: heat-consumption-submission-app
+        ports:
+          - containerPort: 80
