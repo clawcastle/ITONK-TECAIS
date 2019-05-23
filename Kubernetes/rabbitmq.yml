@@ -22,7 +22,7 @@ metadata:
   name: rabbitmq
 spec:
   serviceName: rabbitmq
-  replicas: 3
+  replicas: 1
   updateStrategy:
     type: RollingUpdate
   template:
@@ -94,4 +94,4 @@ spec:
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
-            storage: 10Gi
+            storage: 1Gi
