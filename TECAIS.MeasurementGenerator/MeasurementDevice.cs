@@ -6,9 +6,11 @@ namespace TECAIS.MeasurementGenerator
     {
         public Guid Id { get; }
         public MeasurementType MeasurementType { get; }
+        public DateTime PreviousTime { get; private set; }
         public string SerialNumber { get; }
         public string Manufacturer { get; }
         public double CurrentValue { get; private set; }
+        public double PreviousValue { get; private set; }
 
         public MeasurementDevice(Guid id, MeasurementType measurementType, string serialNumber, string manufacturer, double startingValue)
         {
@@ -17,12 +19,16 @@ namespace TECAIS.MeasurementGenerator
             SerialNumber = serialNumber ?? throw new ArgumentNullException(nameof(serialNumber));
             Manufacturer = manufacturer ?? throw new ArgumentNullException(nameof(manufacturer));
             CurrentValue = startingValue;
+            PreviousValue = 0;
+            PreviousTime = DateTime.Now;
         }
 
         public Measurement GenerateMeasurement()
         {
             UpdateValue();
-            return Measurement.Create(Id, CurrentValue, MeasurementType);
+            Measurement m = Measurement.Create(Id, PreviousTime, CurrentValue, PreviousValue, MeasurementType);
+            PreviousTime = DateTime.Now;
+            return m;
         }
 
         public StatusReportMessage GenerateStatusReport()
@@ -40,6 +46,7 @@ namespace TECAIS.MeasurementGenerator
         {
             var random = new Random();
             CurrentValue += random.NextDouble() * 100;
+            PreviousValue = CurrentValue;
         }
     }
 }

@@ -19,14 +19,10 @@ namespace TECAIS.MeasurementGenerator
                 })
             };
             
-            var count = 0;
             while (true)
             {
                 ReportMeasurements(houseHolds, rabbitMqClient);
-                if (count % 3 == 0)
-                {
-                    ReportStatus(houseHolds, rabbitMqClient);
-                }
+                ReportStatus(houseHolds, rabbitMqClient);
                 Thread.Sleep(5000);
             }
         }
