@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace TECAIS.HeatConsumptionSubmission.Models
+namespace TECAIS.WaterConsumptionSubmission.Models
 {
     public class PricingInformation
     {

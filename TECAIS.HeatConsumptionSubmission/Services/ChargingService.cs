@@ -25,9 +25,4 @@ namespace TECAIS.HeatConsumptionSubmission.Services
             return result;
         }
     }
-
-    public interface IChargingService
-    {
-        Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId);
-    }
 }

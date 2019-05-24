@@ -1,9 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TECAIS.HeatConsumptionSubmission.Models;
+using TECAIS.WaterConsumptionSubmission.Models;
 
-namespace TECAIS.HeatConsumptionSubmission.Services
+namespace TECAIS.WaterConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
     {
@@ -13,12 +14,13 @@ namespace TECAIS.HeatConsumptionSubmission.Services
         {
             _httpClient = httpClient;
         }
-        public async Task<PricingInformation> GetPricingInformationAsync()
+
+        public async Task<PricingInformation> GetPricingInformationAsync(Guid deviceId)
         {
             var pricingInformation = await _httpClient.GetAsync("/price").ConfigureAwait(false);
             var responseAsString = await pricingInformation.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PricingInformation>(responseAsString);
-            return result;
+            var pricingInformationDeserialized = JsonConvert.DeserializeObject<PricingInformation>(responseAsString);
+            return pricingInformationDeserialized;
         }
     }
 }

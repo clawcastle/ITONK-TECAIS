@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TECAIS.RabbitMq;
 using TECAIS.StatusReporting.Models;
+using TECAIS.StatusReporting.Repositories;
 
-namespace TECAIS.StatusReporting
+namespace TECAIS.StatusReporting.Handlers
 {
     public class StatusMessageReceivedHandler : IEventHandler<StatusReportMessage>
     {

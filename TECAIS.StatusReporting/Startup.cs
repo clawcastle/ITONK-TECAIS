@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
 using TECAIS.StatusReporting.Extensions;
+using TECAIS.StatusReporting.Handlers;
 
 namespace TECAIS.StatusReporting
 {

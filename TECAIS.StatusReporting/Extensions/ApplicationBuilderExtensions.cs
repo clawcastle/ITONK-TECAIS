@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
+using TECAIS.StatusReporting.Handlers;
 using TECAIS.StatusReporting.Models;
 
 namespace TECAIS.StatusReporting.Extensions
