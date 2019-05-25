@@ -32,7 +32,6 @@ namespace TECAIS.WaterConsumptionSubmission.Handlers
             var price = CalculatePrice(pricingInformation.Price, chargingInformation);
             var accountingMessage = AccountingMessage.Create(price, pricingInformation, chargingInformation);
             _eventBus.Publish(accountingMessage);
-
         }
 
         private double CalculatePrice(double basePrice, ChargingInformation chargingInformation)
