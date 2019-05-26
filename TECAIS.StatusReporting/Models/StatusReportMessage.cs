@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TECAIS.RabbitMq;
 
 namespace TECAIS.StatusReporting.Models
@@ -12,6 +9,7 @@ namespace TECAIS.StatusReporting.Models
         public DateTime Timestamp { get; set; }
         public Status Status { get; set; }
         public string Message { get; set; }
+        public double CurrentAmount { get; set; }
 
         public StatusReportMessage(string eventType) : base(eventType)
         {
