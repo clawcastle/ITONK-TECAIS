@@ -21,9 +21,6 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 
         public async Task<PricingInformation> GetPricingInformationAsync()
         {
-
-            Console.WriteLine(".....GetPricingInformationAsync called...");
-
             //if default constructor
             using (_httpClient ?? (_httpClient = new HttpClient()))
             {
@@ -34,8 +31,6 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
                 var pricingInformationDeserialized =
                     JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
                     .Substring(1, pricingInformationAsString.Length - 3));
-
-                Console.WriteLine(".....GetPricingInformationAsync called... with: " + pricingInformationDeserialized.Price);
 
                 return pricingInformationDeserialized;
             }

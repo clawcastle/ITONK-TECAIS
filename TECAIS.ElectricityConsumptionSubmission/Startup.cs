@@ -44,7 +44,7 @@ namespace TECAIS.ElectricityConsumptionSubmission
         }
 
 
-        public async Task information()
+        public async Task Information()
         {
             PricingService _pricingService = new PricingService();
             
