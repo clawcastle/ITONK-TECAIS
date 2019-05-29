@@ -4,7 +4,7 @@ items:
   - apiVersion: v1
     kind: PersistentVolume
     metadata:
-      name: pv-a
+      name: rabbit-mq-pvc
     spec:
       capacity:
         storage: 1Mi
@@ -12,18 +12,5 @@ items:
         - ReadWriteOnce
       persistentVolumeReclaimPolicy: Recycle
       gcePersistentDisk:
-        pdName: pv-a
-        fsType: nfs4
-  - apiVersion: v1
-    kind: PersistentVolume
-    metadata:
-      name: pv-b
-    spec:
-      capacity:
-        storage: 1Mi
-      accessModes:
-        - ReadWriteOnce
-      persistentVolumeReclaimPolicy: Recycle
-      gcePersistentDisk:
-        pdName: pv-b
+        pdName: rabbitmq-persistent-storage
         fsType: nfs4
