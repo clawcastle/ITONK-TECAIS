@@ -1,13 +1,16 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: status-sqlserver
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: status-db
   template:
     metadata:
       labels:
-        app: mssql
+        app: status-db
     spec:
       terminationGracePeriodSeconds: 10
       containers:
@@ -23,22 +26,36 @@ spec:
             - name: MSSQL_SA_PASSWORD
               value: pass1234
           volumeMounts:
-            - name: mssqldb
+            - name: status-sql-db
               mountPath: /var/opt/mssql
       volumes:
-        - name: mssqldb
+        - name: status-sql-db
           persistentVolumeClaim:
-            claimName: mssql-data
+            claimName: status-sql-data
 ---
 apiVersion: v1
+  selector: status-sqlserver
 kind: Service
 metadata:
   name: status-sqlserver
 spec:
-  selector:
-    app: mssql
+    app: status-db
   ports:
     - protocol: TCP
       port: 1433
       targetPort: 1433
   type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: status-sql-data
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  gcePersistentDisk:
+    pdName: status-sql-db
+    fsType: nfs4
