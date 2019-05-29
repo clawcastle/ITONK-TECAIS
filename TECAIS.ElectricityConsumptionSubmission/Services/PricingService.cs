@@ -10,20 +10,35 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
     {
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
+
+        public PricingService() { }
 
         public PricingService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<PricingInformation> GetPricingInformationAsync(Guid deviceId)
+        public async Task<PricingInformation> GetPricingInformationAsync()
         {
-            var pricingInformationResult = await _httpClient.GetAsync("/price").ConfigureAwait(false);
-            var pricingInformationAsString = await pricingInformationResult.Content.ReadAsStringAsync();
-            var pricingInformationDeserialized =
-                JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString);
-            return pricingInformationDeserialized;
+
+            Console.WriteLine(".....GetPricingInformationAsync called...");
+
+            //if default constructor
+            using (_httpClient ?? (_httpClient = new HttpClient()))
+            {
+                var pricingInformationResult = await _httpClient.GetAsync("https://hourlypricing.comed.com/api?type=currenthouraverage").ConfigureAwait(false);
+                var pricingInformationAsString = await pricingInformationResult.Content.ReadAsStringAsync();
+
+                //rawJSON string contains an array with an single object - Trimming square brackets before deserializing.
+                var pricingInformationDeserialized =
+                    JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
+                    .Substring(1, pricingInformationAsString.Length - 3));
+
+                Console.WriteLine(".....GetPricingInformationAsync called... with: " + pricingInformationDeserialized.Price);
+
+                return pricingInformationDeserialized;
+            }
         }
     }
 }

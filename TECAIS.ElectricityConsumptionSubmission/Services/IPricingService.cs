@@ -6,6 +6,6 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 {
     public interface IPricingService
     {
-        Task<PricingInformation> GetPricingInformationAsync(Guid deviceId);
+        Task<PricingInformation> GetPricingInformationAsync();
     }
 }

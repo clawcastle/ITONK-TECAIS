@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using TECAIS.ElectricityConsumptionSubmission.Extensions;
 using TECAIS.ElectricityConsumptionSubmission.Handlers;
+using TECAIS.ElectricityConsumptionSubmission.Models;
 using TECAIS.ElectricityConsumptionSubmission.Services;
 using TECAIS.RabbitMq;
 
@@ -40,9 +43,23 @@ namespace TECAIS.ElectricityConsumptionSubmission
             });
         }
 
+
+        public async Task information()
+        {
+            PricingService _pricingService = new PricingService();
+            
+            var getPrice = _pricingService.GetPricingInformationAsync();
+
+            var result = await getPrice;
+
+            Console.WriteLine(".....Result of GetPricingInformationAsync() is " + result);
+        }
+
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
