@@ -7,11 +7,13 @@ using log4net;
 using Newtonsoft.Json;
 using TECAIS.ElectricityConsumptionSubmission.Models;
 
+
+
 namespace TECAIS.ElectricityConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
-    {
-        private static readonly ILog log = LogManager.GetLogger(typeof(PricingService));
+    {   
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
 
         public PricingService() { }
@@ -36,11 +38,12 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
                         JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
                         .Substring(1, pricingInformationAsString.Length - 3));
 
+                    log.Info("Returning value from API: " + pricingInformationDeserialized.Price);
                     return pricingInformationDeserialized;
                 }
                 catch(Exception ex)
                 {
-                    log.Info("Electricity API failed with exception: " + ex);
+                    log.Error("Electricity Pricing-API failed with exception: " + ex);
                     throw;
                 }
 

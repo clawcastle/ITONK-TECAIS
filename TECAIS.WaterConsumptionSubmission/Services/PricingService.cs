@@ -10,7 +10,7 @@ namespace TECAIS.WaterConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(PricingService));
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
 
         public PricingService() { }

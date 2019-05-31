@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TECAIS.MeasurementGenerator", "TECAIS.MeasurementGenerator\TECAIS.MeasurementGenerator.csproj", "{5E558C16-2D0B-47FC-B8CE-780B97C2A63A}"
 EndProject
@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TECAIS.ElectricityConsumpti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TECAIS.Charging", "TECAIS.Charging\TECAIS.Charging.csproj", "{8C0D324E-4A85-41AE-A201-F4AC4DEB8207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingControl", "AccountingControl\AccountingControl.csproj", "{C105F905-F6AD-4355-B2B5-79BD2084FD2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingControl", "AccountingControl\AccountingControl.csproj", "{C105F905-F6AD-4355-B2B5-79BD2084FD2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC8BA9EB-F79B-43FE-A7B1-1C8DB9B188BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
