@@ -48,8 +48,6 @@ namespace TECAIS.HeatConsumptionSubmission
             var getPrice = _pricingService.GetPricingInformationAsync();
 
             var result = await getPrice;
-
-            Console.WriteLine(".....Result of GetPricingInformationAsync() is " + result.Price);
         }
 
 

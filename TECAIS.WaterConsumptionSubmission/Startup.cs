@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,17 @@ namespace TECAIS.WaterConsumptionSubmission
                 sp.BaseAddress = new Uri(pricingServiceHostName);
             });
         }
+
+            public async Task Information()
+            {
+                PricingService _pricingService = new PricingService();
+
+                var getPrice = _pricingService.GetPricingInformationAsync();
+
+                var result = await getPrice;
+            }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

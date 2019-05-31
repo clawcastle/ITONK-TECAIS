@@ -23,7 +23,7 @@ namespace TECAIS.WaterConsumptionSubmission.Handlers
 
         public async Task Handle(Measurement @event)
         {
-            var getPricingInformationTask = _pricingService.GetPricingInformationAsync(@event.DeviceId);
+            var getPricingInformationTask = _pricingService.GetPricingInformationAsync();
             var getChargingInformationTask = _chargingService.GetChargingInformationAsync(@event.DeviceId);
             await Task.WhenAll(getPricingInformationTask, getChargingInformationTask).ConfigureAwait(false);
 
