@@ -31,7 +31,7 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
                     var pricingInformationResult = await _httpClient.GetAsync("https://hourlypricing.comed.com/api?type=currenthouraverage").ConfigureAwait(false);
                     var pricingInformationAsString = await pricingInformationResult.Content.ReadAsStringAsync();
 
-                    //rawJSON string contains an array with an single object - Trimming square brackets before deserializing.
+                    //JSON string contains an array with an single object - Trimming square brackets before deserializing.
                     var pricingInformationDeserialized =
                         JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
                         .Substring(1, pricingInformationAsString.Length - 3));
