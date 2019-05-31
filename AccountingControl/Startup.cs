@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TECAIS.AccountingControl.Extensions;
 using TECAIS.RabbitMq;
 
 namespace AccountingControl
