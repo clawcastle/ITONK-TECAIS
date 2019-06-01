@@ -12,7 +12,9 @@ namespace TECAIS.HeatConsumptionSubmission.Services
     public class ChargingService : IChargingService
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
+
+        public ChargingService() { }
 
         public ChargingService(HttpClient httpClient)
         {
@@ -21,19 +23,22 @@ namespace TECAIS.HeatConsumptionSubmission.Services
 
         public async Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId)
         {
-            try
+            using (_httpClient ?? (_httpClient = new HttpClient()))
             {
-                var chargingInformation = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
-                var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
+                try
+                {
+                    var chargingInformation = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
+                    var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
 
-                log.Info("Heat Charging-API return value: " + result.CurrentTaxRate);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                log.Error("Heat Charging-API failed with exception: " + ex);
-                throw;
+                    log.Info("Heat Charging-API return value: " + result.CurrentTaxRate);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Heat Charging-API failed with exception: " + ex);
+                    throw;
+                }
             }
         }
     }

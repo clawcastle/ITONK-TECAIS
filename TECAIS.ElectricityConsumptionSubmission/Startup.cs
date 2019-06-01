@@ -31,26 +31,6 @@ namespace TECAIS.ElectricityConsumptionSubmission
             services.AddTransient<MeasurementReceivedEventHandler>();
             services.AddTransient<IChargingService, ChargingService>();
             services.AddTransient<IPricingService, PricingService>();
-            services.AddHttpClient<IChargingService, ChargingService>(sp =>
-            {
-                var chargingServiceHostName = Configuration["CHARGING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(chargingServiceHostName);
-            });
-            services.AddHttpClient<IPricingService, PricingService>(sp =>
-            {
-                var pricingServiceHostName = Configuration["HEAT_PRICING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(pricingServiceHostName);
-            });
-        }
-
-
-        public async Task Information()
-        {
-            PricingService _pricingService = new PricingService();
-            
-            var getPrice = _pricingService.GetPricingInformationAsync();
-
-            var result = await getPrice;
         }
 
 
