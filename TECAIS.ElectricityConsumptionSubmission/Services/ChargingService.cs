@@ -19,7 +19,6 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 
         public async Task<ChargingInformation> GetChargingInformationAsync(Guid deviceId)
         {
-
             try
             {
                 var chargingInformationResult = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
@@ -36,10 +35,6 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
                 log.Error("Electricity Charging-API failed with exception: " + ex);
                 throw;
             }
-
-
-
-
         }
     }
 }

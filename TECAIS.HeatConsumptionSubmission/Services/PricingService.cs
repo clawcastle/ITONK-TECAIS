@@ -10,7 +10,7 @@ namespace TECAIS.HeatConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(PricingService));
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
 
         public PricingService()
@@ -38,11 +38,12 @@ namespace TECAIS.HeatConsumptionSubmission.Services
                     PricingInformation pricingInformation = new PricingInformation();
                     pricingInformation.Price = objPrice;
 
+                    log.Info("Heat Pricing-API returning value: " + pricingInformation.Price);
                     return pricingInformation;
                 }
                 catch (Exception ex)
                 {
-                    log.Info("Heat API failed with exception: " + ex);
+                    log.Info("Heat Pricing-API failed with exception: " + ex);
                     throw;
                 }
             }

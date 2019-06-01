@@ -9,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using log4net;
 
-[assembly: log4net.Config.XmlConfigurator(Watch = true)]
-
 namespace AccountingControl
 {
     public class Program

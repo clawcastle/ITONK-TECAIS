@@ -38,7 +38,7 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
                         JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
                         .Substring(1, pricingInformationAsString.Length - 3));
 
-                    log.Info("Returning value from API: " + pricingInformationDeserialized.Price);
+                    log.Info("Electricity Pricing-API returning value: " + pricingInformationDeserialized.Price);
                     return pricingInformationDeserialized;
                 }
                 catch(Exception ex)
