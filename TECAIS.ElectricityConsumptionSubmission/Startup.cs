@@ -41,9 +41,6 @@ namespace TECAIS.ElectricityConsumptionSubmission
                 var pricingServiceHostName = Configuration["HEAT_PRICING_SERVICE_HOSTNAME"];
                 sp.BaseAddress = new Uri(pricingServiceHostName);
             });
-            var test = Information();
-
-            Task.WaitAll(test);
         }
 
 
