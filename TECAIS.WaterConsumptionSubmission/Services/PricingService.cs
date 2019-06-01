@@ -38,11 +38,13 @@ namespace TECAIS.WaterConsumptionSubmission.Services
 
                     pricingInformation.Price = objPrice;
 
+                    log.Info("Water Pricing-API returning value: " + pricingInformation.Price);
+
                     return pricingInformation;
                 }
                 catch (Exception ex)
                 {
-                    log.Info("Water API failed with exception: " + ex);
+                    log.Info("Water Pricing-API failed with exception: " + ex);
                     throw;
                 }
             }
