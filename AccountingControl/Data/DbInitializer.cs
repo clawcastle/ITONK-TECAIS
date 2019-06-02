@@ -18,8 +18,7 @@ namespace AccountingControl.Data
             {
                 return;   // DB has been seeded
             }
-
-           
+                     
 
             var households = new HouseholdModel[]
             {
