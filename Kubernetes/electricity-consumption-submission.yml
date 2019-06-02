@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: services
+  namespace: tecais
   name: electricity-consumption-submission
 spec:
   replicas: 1
