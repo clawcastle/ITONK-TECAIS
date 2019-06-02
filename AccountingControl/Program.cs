@@ -24,7 +24,7 @@ namespace AccountingControl
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<AccountingContext>();
+                    var context = services.GetService<AccountingContext>();
                     DbInitializer.InitializeDb(context);
                 }
                 catch (Exception ex)

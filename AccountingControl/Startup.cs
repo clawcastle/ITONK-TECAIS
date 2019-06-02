@@ -36,11 +36,11 @@ namespace AccountingControl
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<AccountingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+                
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEventBus();
-            services.AddTransient<AccountMessageReceivedHandler>();
+            services.AddSingleton<AccountMessageReceivedHandler>();
+            services.AddDbContext<AccountingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

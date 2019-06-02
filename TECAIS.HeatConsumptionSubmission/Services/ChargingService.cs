@@ -27,10 +27,10 @@ namespace TECAIS.HeatConsumptionSubmission.Services
             {
                 try
                 {
-                    var chargingInformation = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
-                    var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
-
+                    //var chargingInformation = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
+                    //var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
+                    //var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
+                    var result = new ChargingInformation { ConsumerId = Guid.NewGuid(), Timestamp = DateTime.Now, CurrentTaxRate = 22, Charges = new List<double> { 22, 21} };
                     log.Info("Heat Charging-API return value: " + result.CurrentTaxRate);
                     return result;
                 }
