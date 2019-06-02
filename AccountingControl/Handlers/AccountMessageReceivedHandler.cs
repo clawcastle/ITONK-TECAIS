@@ -12,9 +12,12 @@ namespace AccountingControl.Handlers
     {
         public Task Handle(AccountingMessage @event)
         {
-            Console.WriteLine($"Received message with status {@event.Amount}");
-            var AccInfo = new AccountingInformation();
-            AccInfo.ElectricityCost = @event.PricingInformation.Price;
+            Console.WriteLine($"Received message with amount {@event.Amount}");
+
+
+
+            var AccInfo = new AccountingInformation{ HouseholdModelID = @event.HouseID, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp};
+           
             return Task.CompletedTask;
         }
     }

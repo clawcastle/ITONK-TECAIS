@@ -11,11 +11,17 @@ namespace TECAIS.MeasurementGenerator
             var rabbitMqClient = new RabbitMqClient(exchangeName: "measurement_exchange");
             var houseHolds = new List<HouseHold>
             {
-                new HouseHold(new List<MeasurementDevice>
+                new HouseHold(1, new List<MeasurementDevice>
                 {
-                    new MeasurementDevice(Guid.NewGuid(), MeasurementType.Electricity, "123456789", "Mig", 123),
-                    new MeasurementDevice(Guid.NewGuid(), MeasurementType.Heat, "123456789", "Mig", 456),
-                    new MeasurementDevice(Guid.NewGuid(), MeasurementType.Water, "123456789", "Mig", 789),
+                    new MeasurementDevice(Guid.NewGuid(), 1, MeasurementType.Electricity, "123456789", "Mig", 123),
+                    new MeasurementDevice(Guid.NewGuid(), 1, MeasurementType.Heat, "123456789", "Mig", 456),
+                    new MeasurementDevice(Guid.NewGuid(), 1, MeasurementType.Water, "123456789", "Mig", 789),
+                }),
+                new HouseHold(2, new List<MeasurementDevice>
+                {
+                    new MeasurementDevice(Guid.NewGuid(), 2, MeasurementType.Electricity, "123456789", "Mig", 123),
+                    new MeasurementDevice(Guid.NewGuid(), 2, MeasurementType.Heat, "123456789", "Mig", 456),
+                    new MeasurementDevice(Guid.NewGuid(), 2, MeasurementType.Water, "123456789", "Mig", 789),
                 })
             };
             

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,30 +13,45 @@ namespace AccountingControl.Data
         {
             context.Database.EnsureCreated();
 
-            // Look for any students.
+            // Look for any households.
             if (context.Households.Any())
             {
                 return;   // DB has been seeded
             }
 
+           
+
             var households = new HouseholdModel[]
             {
-            new HouseholdModel{},
-            new HouseholdModel{},
-            new HouseholdModel{},
+            new HouseholdModel{ ID = 100 },
+            new HouseholdModel{ ID = 200 },
+            new HouseholdModel{ ID = 300 },
             };
             foreach (HouseholdModel H in households)
             {
                 context.Households.Add(H);
             }
-            context.SaveChanges();
+
+            context.Database.OpenConnection();
+
+            try
+            {
+                context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel ON");
+                context.SaveChanges();
+                context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel OFF");
+
+            } finally
+            {
+                context.Database.CloseConnection();
+            }
+            
 
             var bills = new AccountingInformation[]
             {
-            new AccountingInformation{ ElectricityCost = 200, HeatingCost = 200, HouseholdModelID = 1, Timestamp = DateTime.Now },
-            new AccountingInformation{ ElectricityCost = 100, HeatingCost = 100, HouseholdModelID = 1, Timestamp = DateTime.Now },
-            new AccountingInformation{ ElectricityCost = 200, HeatingCost = 200, HouseholdModelID = 2, Timestamp = DateTime.Now },
-            new AccountingInformation{ ElectricityCost = 2300, HeatingCost = 2300, HouseholdModelID = 3, Timestamp = DateTime.Now },
+            new AccountingInformation{ HouseholdModelID = 100, BillType = "Heat", Amount = 100, Timestamp = DateTime.Now },
+            new AccountingInformation{ HouseholdModelID = 100, BillType = "Water", Amount = 100, Timestamp = DateTime.Now },
+            new AccountingInformation{ HouseholdModelID = 100, BillType = "Electricity", Amount = 100, Timestamp = DateTime.Now },
+            new AccountingInformation{ HouseholdModelID = 200, BillType = "Heat", Amount = 100, Timestamp = DateTime.Now },
             };
             foreach (AccountingInformation A in bills)
             {

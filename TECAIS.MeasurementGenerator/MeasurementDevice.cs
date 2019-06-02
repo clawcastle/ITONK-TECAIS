@@ -5,6 +5,7 @@ namespace TECAIS.MeasurementGenerator
     public class MeasurementDevice
     {
         public Guid Id { get; }
+        public int HouseID { get; }
         public MeasurementType MeasurementType { get; }
         public DateTime PreviousTime { get; private set; }
         public string SerialNumber { get; }
@@ -12,9 +13,10 @@ namespace TECAIS.MeasurementGenerator
         public double CurrentValue { get; private set; }
         public double PreviousValue { get; private set; }
 
-        public MeasurementDevice(Guid id, MeasurementType measurementType, string serialNumber, string manufacturer, double startingValue)
+        public MeasurementDevice(Guid id, int houseID, MeasurementType measurementType, string serialNumber, string manufacturer, double startingValue)
         {
             Id = id;
+            HouseID = houseID;
             MeasurementType = measurementType;
             SerialNumber = serialNumber ?? throw new ArgumentNullException(nameof(serialNumber));
             Manufacturer = manufacturer ?? throw new ArgumentNullException(nameof(manufacturer));
@@ -26,7 +28,7 @@ namespace TECAIS.MeasurementGenerator
         public Measurement GenerateMeasurement()
         {
             UpdateValue();
-            Measurement m = Measurement.Create(Id, PreviousTime, CurrentValue, PreviousValue, MeasurementType);
+            Measurement m = Measurement.Create(Id, HouseID, PreviousTime, CurrentValue, PreviousValue, MeasurementType);
             PreviousTime = DateTime.Now;
             return m;
         }

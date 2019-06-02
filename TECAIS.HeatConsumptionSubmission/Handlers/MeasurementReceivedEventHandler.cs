@@ -29,7 +29,7 @@ namespace TECAIS.HeatConsumptionSubmission.Handlers
             var pricingInformation = await pricingInformationTask.ConfigureAwait(false);
             var price = CalculatePrice(pricingInformation.Price, chargingInformation);
 
-            var accountingMessage = AccountingMessage.Create(price, pricingInformation, chargingInformation);
+            var accountingMessage = AccountingMessage.Create(price, @event.HouseID, pricingInformation, chargingInformation);
             _eventBus.Publish(accountingMessage);
         }
 
