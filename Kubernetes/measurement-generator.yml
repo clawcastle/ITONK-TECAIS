@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: services
-  name: heat-consumption-submission
+  name: measurement-generator
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: heat-consumption-submission
+      app: measurement-generator
   template:
     metadata:
       labels:
-        app: heat-consumption-submission
+        app: measurement-generator
     spec:
       containers:
-        - name: heat-consumption-submission-app
-          image: clawcastle/heatconsumption:v1
+        - name: measurement-generator-app
+          image: clawcastle/measurementgenerator:v1
           ports:
             - containerPort: 80

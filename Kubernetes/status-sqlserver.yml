@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: status-sql-data-pvc
+spec:
+  resources:
+    requests:
+      storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,36 +38,22 @@ spec:
             - name: MSSQL_SA_PASSWORD
               value: pass1234
           volumeMounts:
-            - name: status-sql-db
+            - name: status-sql-vol
               mountPath: /var/opt/mssql
       volumes:
-        - name: status-sql-db
+        - name: status-sql-vol
           persistentVolumeClaim:
-            claimName: status-sql-data
+            claimName: status-sql-data-pvc
 ---
 apiVersion: v1
-  selector: status-sqlserver
 kind: Service
 metadata:
   name: status-sqlserver
 spec:
+  selector:
     app: status-db
   ports:
     - protocol: TCP
       port: 1433
       targetPort: 1433
   type: LoadBalancer
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: status-sql-data
-spec:
-  capacity:
-    storage: 1Mi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Recycle
-  gcePersistentDisk:
-    pdName: status-sql-db
-    fsType: nfs4
