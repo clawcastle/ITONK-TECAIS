@@ -13,10 +13,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TECAIS.RabbitMq\TECAIS.RabbitMq.csproj" />
+    <PackageReference Include="TECAIS.RabbitMq" Version="1.0.0" />
   </ItemGroup>
 
 </Project>
