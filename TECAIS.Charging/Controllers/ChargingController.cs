@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TECAIS.Charging.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class ChargingController : ControllerBase
     {
+        [Route("info")]
         [HttpGet]
         public IActionResult GetChargingInformation()
         {

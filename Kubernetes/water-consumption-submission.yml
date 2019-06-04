@@ -14,7 +14,7 @@ spec:
         app: water-consumption-submission
     spec:
       containers:
-        - name: water-consumption-submission-app
-          image: clawcastle/waterconsumption:v1
+        - name: water-consumption-submission-container
+          image: clawcastle/water-consumption-submission:v1
           ports:
             - containerPort: 80

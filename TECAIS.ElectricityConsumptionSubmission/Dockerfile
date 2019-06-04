@@ -7,8 +7,8 @@ FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
 COPY ["TECAIS.ElectricityConsumptionSubmission.csproj", "TECAIS.ElectricityConsumptionSubmission/"]
 RUN dotnet restore "TECAIS.ElectricityConsumptionSubmission/TECAIS.ElectricityConsumptionSubmission.csproj"
-COPY . .
 WORKDIR "/src/TECAIS.ElectricityConsumptionSubmission"
+COPY . .
 RUN dotnet build "TECAIS.ElectricityConsumptionSubmission.csproj" -c Release -o /app
 
 FROM build AS publish

@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: heat-consumption-submission-app
-          image: clawcastle/heatconsumption:v1
+          image: clawcastle/heat-consumption-submission:v1
           ports:
             - containerPort: 80

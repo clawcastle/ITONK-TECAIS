@@ -1,20 +1,21 @@
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: Service
 metadata:
-  name: status-sql-data-pvc
+  name: status-sqlserver
   namespace: tecais
 spec:
-  resources:
-    requests:
-      storage: 100Mi
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: ""
+  selector:
+    app: status-db
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: status-sqlserver
+  name: status-db
   namespace: tecais
 spec:
   replicas: 1
@@ -29,7 +30,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
         - name: mssql
-          image: mcr.microsoft.com/mssql/server:2017-latest
+          image: microsoft/mssql-server-linux:2017-latest
           ports:
             - containerPort: 1433
           env:
@@ -45,18 +46,4 @@ spec:
       volumes:
         - name: status-sql-vol
           persistentVolumeClaim:
-            claimName: status-sql-data-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: status-sqlserver
-  namespace: tecais
-spec:
-  selector:
-    app: status-db
-  ports:
-    - protocol: TCP
-      port: 1433
-      targetPort: 1433
-  type: LoadBalancer
+            claimName: status-sql-db-pvc

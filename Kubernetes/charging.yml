@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: tecais
-  name: charging-app
+  name: charging-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: charging-app
+      app: charging-service
   template:
     metadata:
       labels:
-        app: charging-app
+        app: charging-service
     spec:
       containers:
-        - name: water-consumption-submission-container
-          image: clawcastle/charging:v1
+        - name: charging-service-container
+          image: clawcastle/charging-service:v1
           ports:
             - containerPort: 80
             - containerPort: 443
@@ -37,4 +37,4 @@ spec:
       port: 443
       targetPort: 443
   selector:
-    app: charging-app
+    app: charging-service

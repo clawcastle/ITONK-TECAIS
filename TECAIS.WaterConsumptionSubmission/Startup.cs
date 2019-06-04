@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +28,17 @@ namespace TECAIS.WaterConsumptionSubmission
             services.AddTransient<MeasurementReceivedEventHandler>();
             services.AddTransient<IChargingService, ChargingService>();
             services.AddTransient<IPricingService, PricingService>();
+            services.AddHttpClient<IChargingService, ChargingService>(sp =>
+            {
+                var chargingServiceHostName =
+                    Environment.GetEnvironmentVariable("CHARGING_LOADBALANCER_SERVICE_HOST") ?? "localhost:44350";
+                var chargingServiceBaseUrl = $"https://{chargingServiceHostName}/api/";
+                sp.BaseAddress = new Uri(chargingServiceBaseUrl);
+            });
+            services.AddHttpClient<IPricingService, PricingService>(sp =>
+            {
+                sp.BaseAddress = new Uri("http://api.eia.gov/");
+            });
         }
 
 

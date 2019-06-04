@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using log4net;
@@ -11,7 +10,7 @@ namespace TECAIS.HeatConsumptionSubmission.Services
 {
     public class ChargingService : IChargingService
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
 
         public ChargingService() { }
@@ -23,22 +22,18 @@ namespace TECAIS.HeatConsumptionSubmission.Services
 
         public async Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId)
         {
-            using (_httpClient ?? (_httpClient = new HttpClient()))
+            try
             {
-                try
-                {
-                    //var chargingInformation = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
-                    //var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
-                    //var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
-                    var result = new ChargingInformation { ConsumerId = Guid.NewGuid(), Timestamp = DateTime.Now, CurrentTaxRate = 22, Charges = new List<double> { 22, 21} };
-                    log.Info("Heat Charging-API return value: " + result.CurrentTaxRate);
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Heat Charging-API failed with exception: " + ex);
-                    throw;
-                }
+                var chargingInformation = await _httpClient.GetAsync("charging/info");
+                var responseAsString = await chargingInformation.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<ChargingInformation>(responseAsString);
+                _log.Info("Heat Charging-API return value: " + result.CurrentTaxRate);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Heat Charging-API failed with exception: " + ex);
+                throw;
             }
         }
     }

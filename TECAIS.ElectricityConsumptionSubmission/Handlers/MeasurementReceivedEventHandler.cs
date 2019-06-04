@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TECAIS.ElectricityConsumptionSubmission.Models;
 using TECAIS.ElectricityConsumptionSubmission.Models.Events;
 using TECAIS.ElectricityConsumptionSubmission.Services;

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using TECAIS.ElectricityConsumptionSubmission.Extensions;
 using TECAIS.ElectricityConsumptionSubmission.Handlers;
-using TECAIS.ElectricityConsumptionSubmission.Models;
 using TECAIS.ElectricityConsumptionSubmission.Services;
 using TECAIS.RabbitMq;
 
@@ -31,6 +28,17 @@ namespace TECAIS.ElectricityConsumptionSubmission
             services.AddTransient<MeasurementReceivedEventHandler>();
             services.AddTransient<IChargingService, ChargingService>();
             services.AddTransient<IPricingService, PricingService>();
+            services.AddHttpClient<IChargingService, ChargingService>(sp =>
+            {
+                var chargingServiceHostName =
+                    Environment.GetEnvironmentVariable("CHARGING_LOADBALANCER_SERVICE_HOST");
+                var chargingServiceBaseUrl = $"http://{chargingServiceHostName}/api/";
+                sp.BaseAddress = new Uri(chargingServiceBaseUrl);
+            });
+            services.AddHttpClient<IPricingService, PricingService>(sp =>
+            {
+                sp.BaseAddress = new Uri("https://hourlypricing.comed.com/");
+            });
         }
 
 

@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["TECAIS.WaterConsumptionSubmission/TECAIS.WaterConsumptionSubmission.csproj", "TECAIS.WaterConsumptionSubmission/"]
+COPY ["TECAIS.WaterConsumptionSubmission.csproj", "TECAIS.WaterConsumptionSubmission/"]
 RUN dotnet restore "TECAIS.WaterConsumptionSubmission/TECAIS.WaterConsumptionSubmission.csproj"
-COPY . .
 WORKDIR "/src/TECAIS.WaterConsumptionSubmission"
+COPY . .
 RUN dotnet build "TECAIS.WaterConsumptionSubmission.csproj" -c Release -o /app
 
 FROM build AS publish

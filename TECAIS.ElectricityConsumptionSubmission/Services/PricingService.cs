@@ -13,11 +13,8 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 {
     public class PricingService : IPricingService
     {   
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
-
-        public PricingService() { }
-
         public PricingService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -25,28 +22,23 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 
         public async Task<PricingInformation> GetPricingInformationAsync()
         {
-            //if default constructor
-            using (_httpClient ?? (_httpClient = new HttpClient()))
+            try
             {
-                try
-                {
-                    var pricingInformationResult = await _httpClient.GetAsync("https://hourlypricing.comed.com/api?type=currenthouraverage").ConfigureAwait(false);
-                    var pricingInformationAsString = await pricingInformationResult.Content.ReadAsStringAsync();
+                var pricingInformationResult = await _httpClient.GetAsync("api?type=currenthouraverage").ConfigureAwait(false);
+                var pricingInformationAsString = await pricingInformationResult.Content.ReadAsStringAsync();
 
-                    //JSON string contains an array with an single object - Trimming square brackets before deserializing.
-                    var pricingInformationDeserialized =
-                        JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
-                        .Substring(1, pricingInformationAsString.Length - 3));
+                //JSON string contains an array with an single object - Trimming square brackets before deserializing.
+                var pricingInformationDeserialized =
+                    JsonConvert.DeserializeObject<PricingInformation>(pricingInformationAsString
+                    .Substring(1, pricingInformationAsString.Length - 3));
 
-                    log.Info("Electricity Pricing-API returning value: " + pricingInformationDeserialized.Price);
-                    return pricingInformationDeserialized;
-                }
-                catch(Exception ex)
-                {
-                    log.Error("Electricity Pricing-API failed with exception: " + ex);
-                    throw;
-                }
-
+                _log.Info("Electricity Pricing-API returning value: " + pricingInformationDeserialized.Price);
+                return pricingInformationDeserialized;
+            }
+            catch(Exception ex)
+            {
+                _log.Error("Electricity Pricing-API failed with exception: " + ex);
+                throw;
             }
         }
     }

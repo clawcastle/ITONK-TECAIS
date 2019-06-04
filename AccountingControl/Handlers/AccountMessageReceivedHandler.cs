@@ -13,11 +13,11 @@ namespace AccountingControl.Handlers
     public class AccountMessageReceivedHandler : IEventHandler<AccountingMessage>
     {
 
-        private readonly AccountingContext context;
+        private readonly AccountingContext _context;
 
-        public AccountMessageReceivedHandler(AccountingContext _context)
+        public AccountMessageReceivedHandler(AccountingContext context)
         {
-            context = _context;
+            _context = context;
         }
 
         public Task Handle(AccountingMessage @event)
@@ -27,7 +27,7 @@ namespace AccountingControl.Handlers
 
             HouseholdModel Home = new HouseholdModel { ID = @event.HouseID };
 
-            List<HouseholdModel> listHouse = context.Households.ToList();
+            List<HouseholdModel> listHouse = _context.Households.ToList();
 
             bool found = false;
 
@@ -39,28 +39,28 @@ namespace AccountingControl.Handlers
             Console.WriteLine($"Received message with amount {@event.Amount}");
             if (!found)
             {
-                context.Households.Add(Home);
+                _context.Households.Add(Home);
 
-                context.Database.OpenConnection();
+                _context.Database.OpenConnection();
 
                 try
                 {
-                    context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel ON");
-                    context.SaveChanges();
-                    context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel OFF");
+                    _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel ON");
+                    _context.SaveChanges();
+                    _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel OFF");
 
                 }
                 finally
                 {
-                    context.Database.CloseConnection();
+                    _context.Database.CloseConnection();
                 }
             }
             
             var AccInfo = new AccountingInformation{ HouseholdModelID = @event.HouseID, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp};
 
-            context.Billings.Add(AccInfo);
+            _context.Billings.Add(AccInfo);
 
-            context.SaveChanges();
+            _context.SaveChanges();
             }
             return Task.CompletedTask;
             

@@ -9,10 +9,8 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 {
     public class ChargingService : IChargingService
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
-
-        public ChargingService() { }
 
         public ChargingService(HttpClient httpClient)
         {
@@ -21,24 +19,21 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
 
         public async Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId)
         {
-            using (_httpClient ?? (_httpClient = new HttpClient()))
+            try
             {
-                try
-                {
-                    var chargingInformationResult = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
-                    var chargingInformationAsString = await chargingInformationResult.Content.ReadAsStringAsync();
-                    var chargingInformationDeserialized =
-                        JsonConvert.DeserializeObject<ChargingInformation>(chargingInformationAsString);
+                var chargingInformationResult = await _httpClient.GetAsync("charging/info").ConfigureAwait(false);
+                var chargingInformationAsString = await chargingInformationResult.Content.ReadAsStringAsync();
+                var chargingInformationDeserialized =
+                    JsonConvert.DeserializeObject<ChargingInformation>(chargingInformationAsString);
 
-                    log.Info("Electricity Charging-API return value: " + chargingInformationDeserialized.CurrentTaxRate);
+                _log.Info("Electricity Charging-API return value: " + chargingInformationDeserialized.CurrentTaxRate);
 
-                    return chargingInformationDeserialized;
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Electricity Charging-API failed with exception: " + ex);
-                    throw;
-                }
+                return chargingInformationDeserialized;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Electricity Charging-API failed with exception: " + ex);
+                throw;
             }
         }
     }

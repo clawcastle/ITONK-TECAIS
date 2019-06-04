@@ -29,6 +29,17 @@ namespace TECAIS.HeatConsumptionSubmission
             services.AddTransient<MeasurementReceivedEventHandler>();
             services.AddTransient<IChargingService, ChargingService>();
             services.AddTransient<IPricingService, PricingService>();
+            services.AddHttpClient<IChargingService, ChargingService>(sp =>
+            {
+                var chargingServiceHostName =
+                    Environment.GetEnvironmentVariable("CHARGING_LOADBALANCER_SERVICE_HOST");
+                var chargingServiceBaseUrl = $"http://{chargingServiceHostName}/api/";
+                sp.BaseAddress = new Uri(chargingServiceBaseUrl);
+            });
+            services.AddHttpClient<IPricingService, PricingService>(sp =>
+            {
+                sp.BaseAddress = new Uri("http://api.eia.gov/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

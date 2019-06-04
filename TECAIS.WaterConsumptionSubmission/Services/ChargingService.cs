@@ -9,7 +9,7 @@ namespace TECAIS.WaterConsumptionSubmission.Services
 {
     public class ChargingService : IChargingService
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private HttpClient _httpClient;
 
         public ChargingService() { }
@@ -21,23 +21,19 @@ namespace TECAIS.WaterConsumptionSubmission.Services
 
         public async Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId)
         {
-
-            using (_httpClient ?? (_httpClient = new HttpClient()))
+            try
             {
-                try
-                {
-                    var chargingInformationResult = await _httpClient.GetAsync("/charging").ConfigureAwait(false);
-                    var chargingInformationResultAsString = await chargingInformationResult.Content.ReadAsStringAsync();
-                    var chargingInformationDeserialized = JsonConvert.DeserializeObject<ChargingInformation>(chargingInformationResultAsString);
+                var chargingInformationResult = await _httpClient.GetAsync("charging/info").ConfigureAwait(false);
+                var chargingInformationResultAsString = await chargingInformationResult.Content.ReadAsStringAsync();
+                var chargingInformationDeserialized = JsonConvert.DeserializeObject<ChargingInformation>(chargingInformationResultAsString);
 
-                    log.Info("Water Charging-API return value: " + chargingInformationDeserialized.CurrentTaxRate);
-                    return chargingInformationDeserialized;
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Water Charging-API failed with exception: " + ex);
-                    throw;
-                }
+                _log.Info("Water Charging-API return value: " + chargingInformationDeserialized.CurrentTaxRate);
+                return chargingInformationDeserialized;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Water Charging-API failed with exception: " + ex);
+                throw;
             }
         }
     }

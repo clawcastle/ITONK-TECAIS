@@ -9,12 +9,12 @@ namespace TECAIS.AccountingControl.Models.Events
 
     public class AccountingMessage : EventBase
     {
-        public double Amount { get; }
-        public int HouseID { get; }
-        public PricingInformation PricingInformation { get; }
-        public ChargingInformation ChargingInformation { get; }
-        public DateTime Timestamp { get; }
-        public String Type { get; }
+        public double Amount { get; set; }
+        public int HouseID { get; set; }
+        public PricingInformation PricingInformation { get; set; }
+        public ChargingInformation ChargingInformation { get; set; }
+        public DateTime Timestamp { get; set; }
+        public String Type { get; set; }
 
         public AccountingMessage(string eventType) : base(eventType)
         {
