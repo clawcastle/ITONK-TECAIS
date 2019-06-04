@@ -6,6 +6,6 @@ namespace TECAIS.WaterConsumptionSubmission.Services
 {
     public interface IChargingService
     {
-        Task<ChargingInformation> GetChargingInformationAsync(Guid deviceId);
+        Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId);
     }
 }

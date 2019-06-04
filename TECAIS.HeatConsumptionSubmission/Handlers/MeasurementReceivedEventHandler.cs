@@ -23,13 +23,13 @@ namespace TECAIS.HeatConsumptionSubmission.Handlers
         {
             var chargingInformationTask = _chargingService.GetChargingInformationForConsumerAsync(@event.DeviceId);
             var pricingInformationTask = _pricingService.GetPricingInformationAsync();
-            await Task.WhenAll(chargingInformationTask, pricingInformationTask).ConfigureAwait(false);
+            await Task.WhenAll(chargingInformationTask, pricingInformationTask);
 
-            var chargingInformation = await chargingInformationTask.ConfigureAwait(false);
-            var pricingInformation = await pricingInformationTask.ConfigureAwait(false);
+            var chargingInformation = await chargingInformationTask;
+            var pricingInformation = await pricingInformationTask;
             var price = CalculatePrice(pricingInformation.Price, chargingInformation);
 
-            var accountingMessage = AccountingMessage.Create(price, pricingInformation, chargingInformation);
+            var accountingMessage = AccountingMessage.Create(price, @event.HouseID, pricingInformation, chargingInformation);
             _eventBus.Publish(accountingMessage);
         }
 

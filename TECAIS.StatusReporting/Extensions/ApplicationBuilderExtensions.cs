@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TECAIS.RabbitMq;
+using TECAIS.StatusReporting.Data;
 using TECAIS.StatusReporting.Handlers;
 using TECAIS.StatusReporting.Models;
 
@@ -25,6 +25,19 @@ namespace TECAIS.StatusReporting.Extensions
         private static void OnStopping(IEventBus eventBus)
         {
             eventBus.Deregister();
+        }
+    }
+
+    public static class ServiceCollectionExtensions
+    {
+        public static IServiceCollection ConfigureDbContext(this IServiceCollection services)
+        {
+            var databaseHostName = Environment.GetEnvironmentVariable("STATUS_SQLSERVER_SERVICE_HOST");
+            var databasePassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+            var connectionString =
+                $"Data Source = {databaseHostName}; User Id = SA; Password = {databasePassword}; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+            services.AddDbContext<StatusDbContext>(options => options.UseSqlServer(connectionString));
+            return services;
         }
     }
 }

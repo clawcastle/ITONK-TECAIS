@@ -17,8 +17,9 @@ namespace TECAIS.RabbitMq
         private readonly IServiceProvider _serviceProvider;
         private string _queueName;
 
-        public EventBus(IEventHandlerManager eventHandlerManager, IServiceProvider serviceProvider, string hostName = "localhost")
+        public EventBus(IEventHandlerManager eventHandlerManager, IServiceProvider serviceProvider)
         {
+            var hostName = Environment.GetEnvironmentVariable("RABBITMQ_SERVICE_HOST") ?? "localhost";
             _connectionFactory = new ConnectionFactory {HostName = hostName};
             _connection = _connectionFactory.CreateConnection();
             _channel = CreateChannel();

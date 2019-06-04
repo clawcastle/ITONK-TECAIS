@@ -12,7 +12,8 @@ namespace TECAIS.MeasurementGenerator
         public RabbitMqClient(string exchangeName)
         {
             _exchangeName = exchangeName;
-            var rabbitHostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST_NAME");
+            var rabbitHostName = Environment.GetEnvironmentVariable("RABBITMQ_SERVICE_HOST");
+            Console.WriteLine($"SERVICE_HOST: {rabbitHostName}");
             _connectionFactory = new ConnectionFactory
                 {HostName = rabbitHostName ?? "localhost"};
         }

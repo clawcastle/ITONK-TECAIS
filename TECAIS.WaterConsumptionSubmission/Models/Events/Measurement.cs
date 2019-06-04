@@ -7,6 +7,7 @@ namespace TECAIS.WaterConsumptionSubmission.Models.Events
     {
         public Guid Id { get; set; }
         public Guid DeviceId { get; set; }
+        public int HouseID { get; set; }
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }
 

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounting-sqlserver
+  namespace: tecais
+spec:
+  selector:
+    app: accounting-db
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting-db
+  namespace: tecais
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: accounting-db
+  template:
+    metadata:
+      labels:
+        app: accounting-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mssql
+          image: microsoft/mssql-server-linux:2017-latest
+          ports:
+            - containerPort: 1433
+          env:
+            - name: MSSQL_PID
+              value: "Developer"
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: MSSQL_SA_PASSWORD
+              value: Password_1234
+          volumeMounts:
+            - name: accounting-sql-vol
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: accounting-sql-vol
+          persistentVolumeClaim:
+            claimName: accounting-sql-db-pvc

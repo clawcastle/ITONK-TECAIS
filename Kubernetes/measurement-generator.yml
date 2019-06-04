@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: tecais
+  name: measurement-generator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: measurement-generator
+  template:
+    metadata:
+      labels:
+        app: measurement-generator
+    spec:
+      containers:
+        - name: measurement-generator-app
+          image: clawcastle/tecais-measurement-generator:v1
+          ports:
+            - containerPort: 80

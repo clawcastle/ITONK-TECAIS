@@ -1,0 +1,48 @@
+﻿@page
+@model AccountingControl.Pages.HouseViewModel
+
+@{
+    ViewData["Title"] = "HouseView";
+}
+
+@using TECAIS.AccountingControl.Models;
+
+<h2>HouseView</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>House</th>
+            <th>Bills</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.HouseholdModel)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(bg => item.ID)
+            </td>
+            @if (item.Invoices != null)
+            {
+
+                @foreach (var bill in Model.Bills)
+                {
+                    if (bill.HouseholdModelID == item.ID)
+                    {
+                        <td>
+                            @Html.DisplayFor(b => bill.Amount)
+                            @Html.DisplayFor(f => bill.BillType)
+                        </td>
+                    }
+                }
+
+            }
+
+
+
+        </tr>
+        }
+    </tbody>
+</table>

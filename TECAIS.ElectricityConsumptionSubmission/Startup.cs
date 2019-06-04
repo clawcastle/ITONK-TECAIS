@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using TECAIS.ElectricityConsumptionSubmission.Extensions;
 using TECAIS.ElectricityConsumptionSubmission.Handlers;
-using TECAIS.ElectricityConsumptionSubmission.Models;
 using TECAIS.ElectricityConsumptionSubmission.Services;
 using TECAIS.RabbitMq;
 
@@ -33,26 +30,17 @@ namespace TECAIS.ElectricityConsumptionSubmission
             services.AddTransient<IPricingService, PricingService>();
             services.AddHttpClient<IChargingService, ChargingService>(sp =>
             {
-                var chargingServiceHostName = Configuration["CHARGING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(chargingServiceHostName);
+                var chargingServiceHostName =
+                    Environment.GetEnvironmentVariable("CHARGING_LOADBALANCER_SERVICE_HOST");
+                var chargingServiceBaseUrl = $"http://{chargingServiceHostName}/api/";
+                sp.BaseAddress = new Uri(chargingServiceBaseUrl);
             });
             services.AddHttpClient<IPricingService, PricingService>(sp =>
             {
-                var pricingServiceHostName = Configuration["HEAT_PRICING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(pricingServiceHostName);
+                sp.BaseAddress = new Uri("https://hourlypricing.comed.com/");
             });
         }
         //test 
-
-        public async Task Information()
-        {
-            PricingService _pricingService = new PricingService();
-            
-            var getPrice = _pricingService.GetPricingInformationAsync();
-
-            var result = await getPrice;
-        }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

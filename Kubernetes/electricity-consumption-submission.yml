@@ -1,14 +1,20 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: tecais
   name: electricity-consumption-submission
-  labels:
-    app: electricity-consumption-submission
-  namespace: ITONK-TECAIS-GROUP4
-  spec:
-    type: LoadBalancer
-    containers:
-      - image: clawcastle/electricity-consumption-submission
-        name: electricity-consumption-submission-app
-        ports:
-          - containerPort: 80
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: electricity-consumption-submission
+  template:
+    metadata:
+      labels:
+        app: electricity-consumption-submission
+    spec:
+      containers:
+        - name: electricity-consumption-submission-container
+          image: clawcastle/electricity-consumption-submission:v1
+          ports:
+            - containerPort: 80

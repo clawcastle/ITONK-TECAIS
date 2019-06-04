@@ -1,14 +1,20 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: tecais
   name: heat-consumption-submission
-  labels:
-    app: heat-consumption-submission
-  namespace: ITONK-TECAIS-GROUP4
-  spec:
-    type: LoadBalancer
-    containers:
-      - image: clawcastle/heat-consumption-submission
-        name: heat-consumption-submission-app
-        ports:
-          - containerPort: 80
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heat-consumption-submission
+  template:
+    metadata:
+      labels:
+        app: heat-consumption-submission
+    spec:
+      containers:
+        - name: heat-consumption-submission-app
+          image: clawcastle/heat-consumption-submission:v1
+          ports:
+            - containerPort: 80

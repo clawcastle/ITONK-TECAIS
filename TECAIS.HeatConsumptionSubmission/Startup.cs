@@ -31,25 +31,16 @@ namespace TECAIS.HeatConsumptionSubmission
             services.AddTransient<IPricingService, PricingService>();
             services.AddHttpClient<IChargingService, ChargingService>(sp =>
             {
-                var chargingServiceHostName = Configuration["CHARGING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(chargingServiceHostName);
+                var chargingServiceHostName =
+                    Environment.GetEnvironmentVariable("CHARGING_LOADBALANCER_SERVICE_HOST");
+                var chargingServiceBaseUrl = $"http://{chargingServiceHostName}/api/";
+                sp.BaseAddress = new Uri(chargingServiceBaseUrl);
             });
             services.AddHttpClient<IPricingService, PricingService>(sp =>
             {
-                var pricingServiceHostName = Configuration["HEAT_PRICING_SERVICE_HOSTNAME"];
-                sp.BaseAddress = new Uri(pricingServiceHostName);
+                sp.BaseAddress = new Uri("http://api.eia.gov/");
             });
         }
-
-        public async Task Information()
-        {
-            PricingService _pricingService = new PricingService();
-
-            var getPrice = _pricingService.GetPricingInformationAsync();
-
-            var result = await getPrice;
-        }
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

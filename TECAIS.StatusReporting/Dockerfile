@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /src
-COPY ["TECAIS.StatusReporting/TECAIS.StatusReporting.csproj", "TECAIS.StatusReporting/"]
+COPY ["TECAIS.StatusReporting.csproj", "TECAIS.StatusReporting/"]
 RUN dotnet restore "TECAIS.StatusReporting/TECAIS.StatusReporting.csproj"
-COPY . .
 WORKDIR "/src/TECAIS.StatusReporting"
+COPY . .
 RUN dotnet build "TECAIS.StatusReporting.csproj" -c Release -o /app
 
 FROM build AS publish
