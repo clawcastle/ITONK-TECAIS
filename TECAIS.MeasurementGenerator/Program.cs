@@ -29,7 +29,7 @@ namespace TECAIS.MeasurementGenerator
             {
                 ReportMeasurements(houseHolds, rabbitMqClient);
                 ReportStatus(houseHolds, rabbitMqClient);
-                Thread.Sleep(60000);
+                Thread.Sleep(10000);
             }
         }
 
@@ -52,7 +52,7 @@ namespace TECAIS.MeasurementGenerator
                 foreach (var measurementDevice in houseHold.MeasurementDevices)
                 {
                     var status = measurementDevice.GenerateStatusReport(houseHold.Id);
-                    rabbitMqClient.SendMessage(messageBody: status, routingKey: "status_report");
+                    rabbitMqClient.SendMessage(messageBody: status, routingKey: "status");
                 }
             }
         }

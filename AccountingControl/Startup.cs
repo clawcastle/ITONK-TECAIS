@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AccountingControl.Data;
 using AccountingControl.Handlers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,12 +31,15 @@ namespace AccountingControl
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
                 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEventBus();
             services.AddSingleton<AccountMessageReceivedHandler>();
-            services.AddDbContext<AccountingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Singleton);
+            var databaseHostName = Environment.GetEnvironmentVariable("ACCOUNTING_SQLSERVER_SERVICE_HOST");
+            var databasePassword = Environment.GetEnvironmentVariable("ACCOUNTING_SA_PASSWORD");
+            var connectionString =
+                $"Data Source = {databaseHostName}; User Id = SA; Password = {databasePassword}; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+            services.AddDbContext<AccountingContext>(options => options.UseSqlServer(connectionString), ServiceLifetime.Singleton);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
