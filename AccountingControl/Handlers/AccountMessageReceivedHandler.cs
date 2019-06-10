@@ -7,12 +7,13 @@ using TECAIS.AccountingControl.Models.Events;
 using TECAIS.AccountingControl.Models;
 using AccountingControl.Data;
 using Microsoft.EntityFrameworkCore;
+using log4net;
 
 namespace AccountingControl.Handlers
 {
     public class AccountMessageReceivedHandler : IEventHandler<AccountingMessage>
     {
-
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly AccountingContext _context;
 
         public AccountMessageReceivedHandler(AccountingContext context)
@@ -22,47 +23,60 @@ namespace AccountingControl.Handlers
 
         public Task Handle(AccountingMessage @event)
         {
-            if(@event.HouseID != 0)
+            _log.Debug("Entering Handler");
+            try
             {
-
-            HouseholdModel Home = new HouseholdModel { ID = @event.HouseID };
-
-            List<HouseholdModel> listHouse = _context.Households.ToList();
-
-            bool found = false;
-
-            foreach (HouseholdModel H in listHouse)
-            {
-                if (H.ID == @event.HouseID) { found = true; }
-            }
-
-            Console.WriteLine($"Received message with amount {@event.Amount}");
-            if (!found)
-            {
-                _context.Households.Add(Home);
-
-                _context.Database.OpenConnection();
-
-                try
+                if (@event.HouseID != 0)
                 {
-                    _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel ON");
+                    _log.Debug("Entering if-statement(@event.HouseID): " + @event.HouseID);
+                    HouseholdModel Home = new HouseholdModel { ID = @event.HouseID };
+
+                    List<HouseholdModel> listHouse = _context.Households.ToList();
+
+                    bool found = false;
+
+                    foreach (HouseholdModel H in listHouse)
+                    {
+                        if (H.ID == @event.HouseID) { found = true; }
+                    }
+
+                    Console.WriteLine($"Received message with amount {@event.Amount}");
+                    if (!found)
+                    {
+                        _log.Debug("Entering Not-Found statement");
+                        _context.Households.Add(Home);
+
+                        _context.Database.OpenConnection();
+
+                        try
+                        {
+                            _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel ON");
+                            _context.SaveChanges();
+                            _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel OFF");
+
+                        }
+                        finally
+                        {
+                            _context.Database.CloseConnection();
+                        }
+                    }
+
+
+                    var AccInfo = new AccountingInformation { HouseholdModelID = @event.HouseID, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp };
+
+                    _context.Billings.Add(AccInfo);
+
                     _context.SaveChanges();
-                    _context.Database.ExecuteSqlCommand(@"SET IDENTITY_INSERT HouseholdModel OFF");
-
                 }
-                finally
-                {
-                    _context.Database.CloseConnection();
-                }
+                _log.Debug("Returning from Handler");
+                return Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Handle in AccountMessageReceivedHandler failed with exception: " + ex);
+                throw;
             }
             
-            var AccInfo = new AccountingInformation{ HouseholdModelID = @event.HouseID, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp};
-
-            _context.Billings.Add(AccInfo);
-
-            _context.SaveChanges();
-            }
-            return Task.CompletedTask;
             
         }
     }
