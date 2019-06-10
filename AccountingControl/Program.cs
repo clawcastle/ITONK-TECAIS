@@ -11,6 +11,8 @@ using log4net;
 using AccountingControl.Data;
 using Microsoft.Extensions.DependencyInjection;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config")]
+
 namespace AccountingControl
 {
     public class Program
