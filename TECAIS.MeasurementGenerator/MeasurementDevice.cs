@@ -28,7 +28,7 @@ namespace TECAIS.MeasurementGenerator
         public Measurement GenerateMeasurement()
         {
             UpdateValue();
-            Measurement m = Measurement.Create(Id, HouseId, PreviousTime, CurrentValue, PreviousValue, MeasurementType);
+            Measurement m = Measurement.Create(Id, HouseId != 0 ? HouseId : new Random().Next(0, 10), CurrentValue, MeasurementType);
             PreviousTime = DateTime.Now;
             return m;
         }

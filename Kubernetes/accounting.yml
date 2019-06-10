@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: accounting-service-container
-          image: clawcastle/accounting:v1
+          image: clawcastle/accounting:v4
           ports:
             - containerPort: 80
             - containerPort: 443

@@ -6,14 +6,14 @@ namespace TECAIS.ElectricityConsumptionSubmission.Models.Events
     public class AccountingMessage : EventBase
     {
         public double Amount { get; }
-        public int HouseID { get; }
+        public int HouseId { get; }
         public PricingInformation PricingInformation { get; }
         public ChargingInformation ChargingInformation { get; }
         public DateTime Timestamp { get; }
         public String Type { get; }
-        private AccountingMessage(string eventType, int houseID, double amount, PricingInformation pricingInformation, ChargingInformation chargingInformation, DateTime timestamp, String type) : base(eventType)
+        private AccountingMessage(string eventType, int houseId, double amount, PricingInformation pricingInformation, ChargingInformation chargingInformation, DateTime timestamp, String type) : base(eventType)
         {
-            HouseID = houseID;
+            HouseId = houseId;
             Amount = amount;
             PricingInformation = pricingInformation;
             ChargingInformation = chargingInformation;

@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: electricity-consumption-submission-container
-          image: clawcastle/electricity-consumption-submission:v1
+          image: clawcastle/electricity-consumption-submission:v4
           ports:
             - containerPort: 80

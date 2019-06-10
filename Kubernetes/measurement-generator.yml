@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: measurement-generator-app
-          image: clawcastle/tecais-measurement-generator:v1
+          image: clawcastle/generator:v3
           ports:
             - containerPort: 80

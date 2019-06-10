@@ -23,13 +23,13 @@ namespace AccountingControl.Handlers
 
         public Task Handle(AccountingMessage @event)
         {
-            _log.Debug("Entering Handler");
+            _log.Debug($"Entering Handler with event - Id: {@event.HouseId}, Amount {@event.Amount}, Timestamp {@event.Timestamp}, Type: {@event.Type}");
             try
             {
-                if (@event.HouseID != 0)
+                if (@event.HouseId != 0)
                 {
-                    _log.Debug("Entering if-statement(@event.HouseID): " + @event.HouseID);
-                    HouseholdModel Home = new HouseholdModel { ID = @event.HouseID };
+                    _log.Debug("Entering if-statement(@event.HouseId): " + @event.HouseId);
+                    HouseholdModel Home = new HouseholdModel { ID = @event.HouseId };
 
                     List<HouseholdModel> listHouse = _context.Households.ToList();
 
@@ -37,7 +37,7 @@ namespace AccountingControl.Handlers
 
                     foreach (HouseholdModel H in listHouse)
                     {
-                        if (H.ID == @event.HouseID) { found = true; }
+                        if (H.ID == @event.HouseId) { found = true; }
                     }
 
                     Console.WriteLine($"Received message with amount {@event.Amount}");
@@ -62,7 +62,7 @@ namespace AccountingControl.Handlers
                     }
 
 
-                    var AccInfo = new AccountingInformation { HouseholdModelID = @event.HouseID, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp };
+                    var AccInfo = new AccountingInformation { HouseholdModelID = @event.HouseId, BillType = @event.Type, Amount = @event.Amount, Timestamp = @event.Timestamp };
 
                     _context.Billings.Add(AccInfo);
 
