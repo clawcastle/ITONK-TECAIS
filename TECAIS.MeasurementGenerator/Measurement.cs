@@ -6,7 +6,7 @@ namespace TECAIS.MeasurementGenerator
     {
         public Guid Id { get; set; }
         public Guid DeviceId { get; set; }
-        public int HouseID { get; set; }
+        public int HouseId { get; set; }
         public DateTime Timestamp { get; set; }
         public double Value { get; set; }
         public MeasurementType Type { get; set; }
@@ -15,7 +15,7 @@ namespace TECAIS.MeasurementGenerator
         {
             Id = id;
             DeviceId = deviceId;
-            HouseID = houseId;
+            HouseId = houseId;
             Timestamp = timestamp;
             Value = value;
             Type = type;
