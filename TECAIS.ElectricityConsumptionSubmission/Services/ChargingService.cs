@@ -17,6 +17,7 @@ namespace TECAIS.ElectricityConsumptionSubmission.Services
             _httpClient = httpClient;
         }
 
+        //test
         public async Task<ChargingInformation> GetChargingInformationForConsumerAsync(Guid deviceId)
         {
             try
